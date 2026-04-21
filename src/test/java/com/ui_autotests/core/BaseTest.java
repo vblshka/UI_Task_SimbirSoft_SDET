@@ -11,7 +11,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import java.time.Duration;
 
 public class BaseTest {
-    protected static WebDriver driver;
+    protected WebDriver driver;
 
     @BeforeEach
     public void setUp() {
@@ -30,7 +30,11 @@ public class BaseTest {
 
     @AfterEach
     public void tearDown() {
-        driver.close();
-        driver.quit();
+        WebDriver driver = BasePage.getDriver();
+        if (driver != null) {
+            driver.quit();
+            this.driver = null;
+            BasePage.setDriver(null);
+        }
     }
 }
