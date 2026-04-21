@@ -42,7 +42,7 @@ public class ProductPage extends BasePage {
 
         List<WebElement> sizes = checkoutSizes();
         if (sizes.size()!=0) {
-            sizes.get(RandomUtils.getRandomInt(sizes.size())).click();
+            sizes.get(RandomUtils.getRandomInt(sizes.size()-1)).click();
         }
 
         String quantity = String.valueOf(RandomUtils.getRandomInt(9) + 2);
