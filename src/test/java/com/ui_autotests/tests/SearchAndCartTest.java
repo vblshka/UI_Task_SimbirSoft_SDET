@@ -13,7 +13,6 @@ public class SearchAndCartTest extends BaseTest {
     public void searchByKeywordTest() {
         String keyword = "shirt";
 
-        MainPage mainPage = MainPage.getInstance();
         Assertions.assertEquals(keyword, mainPage.searchByKeyword(keyword)
                 .getValueOfSearching());
     }
@@ -22,7 +21,6 @@ public class SearchAndCartTest extends BaseTest {
     public void addProductToCart () {
         String keyword = "shirt";
         int productNumber = 1;
-        MainPage mainPage = MainPage.getInstance();
 
         List<Double> results = mainPage.searchByKeyword(keyword)
                 .chooseProduct(productNumber)

@@ -1,6 +1,8 @@
 package com.ui_autotests.pages;
 
 import com.ui_autotests.core.BasePage;
+import com.ui_autotests.utils.WaitUtils;
+import com.ui_autotests.utils.RandomUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -15,8 +17,6 @@ import java.util.Random;
 
 
 public class MainPage extends BasePage {
-    private static MainPage instance;
-
     @FindBy(xpath = "//ul[@class='nav-pills categorymenu']/li/a[contains(@href, 'path=68')]")
     private WebElement apparelAccessoriesButton;
 
@@ -28,19 +28,12 @@ public class MainPage extends BasePage {
 
     private static List<String> availableProductTitles = new ArrayList<>();
 
-    private MainPage() {
+    public MainPage() {
         driver.get("https://automationteststore.com/");
         PageFactory.initElements(driver, this);
     }
 
-    public static MainPage getInstance() {
-        if (instance == null || !isDriverAlive()) {
-            instance = new MainPage();
-        }
-        return instance;
-    }
-
-    public MainPage initUniqueProductsOnMainPage() {
+    public void initUniqueProductsOnMainPage() {
         for (WebElement product : products) {
             String title = product.getAttribute("title");
 
@@ -48,7 +41,7 @@ public class MainPage extends BasePage {
                 availableProductTitles.add(title);
             }
         }
-        return this;
+        CartState.getInstance().setAvailableProductTitles(availableProductTitles);
     }
 
     public ApparelAccessoriesPage openApparelAccessoriesPage() {
@@ -63,21 +56,16 @@ public class MainPage extends BasePage {
 
     public ProductPage chooseRandomProductsFromMainPage() {
 
-        Random random = new Random();
-        int productNumber = random.nextInt(availableProductTitles.size());
-        String selectedTitle = availableProductTitles.get(productNumber);
+        String selectedTitle = RandomUtils.getRandomProduct(CartState.getInstance().getAvailableProductTitles());
 
         WebElement productToAddInCart = driver.findElement(
                 By.xpath("//a[@class='prdocutname'][@title='" + selectedTitle + "']"));
 
-        System.out.println("Expect added to cart: " + availableProductTitles.get(productNumber));
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        wait.until(ExpectedConditions.elementToBeClickable(productToAddInCart));
+        WaitUtils.getDefaultWait().until(ExpectedConditions.elementToBeClickable(productToAddInCart));
 
         productToAddInCart.click();
-        System.out.println("Added to cart: " + availableProductTitles.get(productNumber));
-        availableProductTitles.remove(productNumber);
+
+        CartState.getInstance().getAvailableProductTitles().remove(selectedTitle);
 
         return new ProductPage();
     }

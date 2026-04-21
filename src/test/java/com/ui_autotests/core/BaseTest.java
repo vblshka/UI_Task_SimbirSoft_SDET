@@ -1,5 +1,7 @@
 package com.ui_autotests.core;
 
+import com.ui_autotests.pages.MainPage;
+import com.ui_autotests.utils.WaitUtils;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +14,7 @@ import java.time.Duration;
 
 public class BaseTest {
     protected WebDriver driver;
+    protected MainPage mainPage;
 
     @BeforeEach
     public void setUp() {
@@ -26,6 +29,10 @@ public class BaseTest {
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
         BasePage.setDriver(driver);
+
+        WaitUtils.init(driver);
+
+        mainPage = new MainPage();
     }
 
     @AfterEach

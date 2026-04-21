@@ -1,16 +1,16 @@
 package com.ui_autotests.pages;
 
 import com.ui_autotests.core.BasePage;
+import com.ui_autotests.utils.RandomUtils;
+import com.ui_autotests.utils.WaitUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
 
 public class ProductPage extends BasePage {
 
@@ -29,10 +29,8 @@ public class ProductPage extends BasePage {
 
         try {
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
-            return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
-                    By.xpath("//div[@class='input-group col-sm-10']//input")
-            ));
+            return WaitUtils.getWaitWithTimeout(5).until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                    By.xpath("//div[@class='input-group col-sm-10']//input")));
         } catch (TimeoutException e) {
             return new ArrayList<>();
         } finally {
@@ -42,27 +40,22 @@ public class ProductPage extends BasePage {
 
     public ShoppingCartPage addProductInCart() {
 
-        Random random = new Random();
-
         List<WebElement> sizes = checkoutSizes();
         if (sizes.size()!=0) {
-            sizes.get(random.nextInt(sizes.size())).click();
+            sizes.get(RandomUtils.getRandomInt(sizes.size())).click();
         }
 
-        String quantity = String.valueOf(random.nextInt(9) + 2);
+        String quantity = String.valueOf(RandomUtils.getRandomInt(9) + 2);
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOf(productQuantity));
+        WaitUtils.getWaitWithTimeout(10).until(ExpectedConditions.visibilityOf(productQuantity));
 
         productQuantity.clear();
 
-        wait.until(ExpectedConditions.elementToBeClickable(productQuantity));
+        WaitUtils.getWaitWithTimeout(10).until(ExpectedConditions.elementToBeClickable(productQuantity));
 
         productQuantity.sendKeys(quantity);
 
-        System.out.println("quantity: "+quantity+"\n");
-
-        wait.until(ExpectedConditions.elementToBeClickable(addToCartButton));
+        WaitUtils.getWaitWithTimeout(10).until(ExpectedConditions.elementToBeClickable(addToCartButton));
 
         addToCartButton.click();
 

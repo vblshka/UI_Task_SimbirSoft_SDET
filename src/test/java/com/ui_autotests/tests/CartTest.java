@@ -10,7 +10,6 @@ public class CartTest extends BaseTest {
 
     @Test
     public void addProductsToCart() {
-        MainPage mainPage = MainPage.getInstance();
         mainPage.initUniqueProductsOnMainPage();
         int counter = 0;
 

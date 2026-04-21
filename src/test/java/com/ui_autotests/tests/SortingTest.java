@@ -11,7 +11,6 @@ public class SortingTest extends BaseTest {
 
     @Test
     public void sortByNameAscTest() {
-        MainPage mainPage = MainPage.getInstance();
         List<String> actualProductNames = new ArrayList<>();
         actualProductNames.addAll(mainPage.openApparelAccessoriesPage()
                 .openTshirtsPage()
@@ -25,7 +24,6 @@ public class SortingTest extends BaseTest {
 
     @Test
     public void sortByNameDescTest() {
-        MainPage mainPage = MainPage.getInstance();
         List<String> actualProductNames = new ArrayList<>();
         actualProductNames.addAll(mainPage.openApparelAccessoriesPage()
                 .openTshirtsPage()
@@ -39,7 +37,6 @@ public class SortingTest extends BaseTest {
 
     @Test
     public void sortByPriceAscTest() {
-        MainPage mainPage = MainPage.getInstance();
         List<Double> actualProductPrices = new ArrayList<>();
         actualProductPrices.addAll(mainPage.openApparelAccessoriesPage()
                 .openTshirtsPage()
@@ -53,7 +50,6 @@ public class SortingTest extends BaseTest {
 
     @Test
     public void sortByPriceDescTest() {
-        MainPage mainPage = MainPage.getInstance();
         List<Double> actualProductPrices = new ArrayList<>();
         actualProductPrices.addAll(mainPage.openApparelAccessoriesPage()
                 .openTshirtsPage()

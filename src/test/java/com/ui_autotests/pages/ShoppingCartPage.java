@@ -1,6 +1,7 @@
 package com.ui_autotests.pages;
 
 import com.ui_autotests.core.BasePage;
+import com.ui_autotests.utils.WaitUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -50,12 +51,9 @@ public class ShoppingCartPage extends BasePage {
         return new SearchByKeywordsPage();
     }
 
-    public MainPage goToHomePage() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.elementToBeClickable(homePageButton));
-
+    public void goToHomePage() {
+        WaitUtils.getWaitWithTimeout(10).until(ExpectedConditions.elementToBeClickable(homePageButton));
         homePageButton.click();
-        return MainPage.getInstance();
     }
 
     public List<Double> changeQuantityOfProduct() {
@@ -113,20 +111,19 @@ public class ShoppingCartPage extends BasePage {
 
         String oldTotalPrice = subTotalPrice.getText();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.elementToBeClickable(updateCartButton));
+        WaitUtils.getWaitWithTimeout(10).until(ExpectedConditions.elementToBeClickable(updateCartButton));
 
         updateCartButton.click();
 
-        wait.until(ExpectedConditions.not(
+        WaitUtils.getWaitWithTimeout(10).until(ExpectedConditions.not(
                 ExpectedConditions.textToBePresentInElement(subTotalPrice, oldTotalPrice)));
 
         List<Double> results = new ArrayList<>();
 
-        results.add(totalCosts.get(0) + totalCosts.get(1));         //expected result
+        results.add(totalCosts.get(0) + totalCosts.get(1));
 
         results.add(Double.parseDouble(subTotalPrice.getText()
-                .replace(currency.getText(), "").trim()));         //current result
+                .replace(currency.getText(), "").trim()));
 
         return results;
     }
@@ -170,11 +167,10 @@ public class ShoppingCartPage extends BasePage {
             }
         }
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
         for (int i = 0; i < deleteButtons.size(); i++) {
             if (deleteButtons.get(i).getAttribute("href").equals(evenDeleteButtonsHref.get(0))) {
-                wait.until(ExpectedConditions.elementToBeClickable(deleteButtons.get(i)));
+                WaitUtils.getWaitWithTimeout(10)
+                        .until((ExpectedConditions.elementToBeClickable(deleteButtons.get(i))));
                 deleteButtons.get(i).click();
                 evenDeleteButtonsHref.remove(0);
             }
@@ -184,13 +180,12 @@ public class ShoppingCartPage extends BasePage {
 
         results.add(firstProductUnitPrice * firstProductQuantity
                 + thirdProductUnitPrice * thirdProductQuantity
-                + fifthProductUnitPrice * fifthProductQuantity);    //expected result
+                + fifthProductUnitPrice * fifthProductQuantity);
 
         results.add(Double.parseDouble(subTotalPrice.getText()
                 .replace(currency.getText(), "")
-                .replace(",", "").trim()));        //current result
+                .replace(",", "").trim()));
 
-        System.out.println(results);
         return results;
     }
 }
