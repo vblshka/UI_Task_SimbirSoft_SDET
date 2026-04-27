@@ -24,6 +24,13 @@ public class BaseTest {
         options.setPageLoadStrategy(PageLoadStrategy.EAGER);
         options.addArguments("--remote-allow-origins=*");
 
+        String headless = System.getenv("HEADLESS");
+        if ("true".equalsIgnoreCase(headless)) {
+            options.addArguments("--headless");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
+        }
+
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
