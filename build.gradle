@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'io.qameta.allure' version '2.12.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.24'
 }
 
 group 'org.example'
@@ -10,10 +12,17 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.9.24'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
     testImplementation 'org.seleniumhq.selenium:selenium-java:4.41.0'
     testImplementation 'io.github.bonigarcia:webdrivermanager:5.9.2'
+    testImplementation("io.rest-assured:rest-assured:5.5.0")
+    testAnnotationProcessor("org.projectlombok:lombok:1.18.42")
+    testCompileOnly("org.projectlombok:lombok:1.18.42")
+    testImplementation("org.aeonbits.owner:owner:1.0.12")
+    testImplementation("com.fasterxml.jackson.core:jackson-databind:2.21.2")
+
 }
 
 test {
