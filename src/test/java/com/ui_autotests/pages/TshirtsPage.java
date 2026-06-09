@@ -86,7 +86,7 @@ public class TshirtsPage extends BasePage {
         selectSortOption("p.price-ASC");
 
         List<WebElement> currentProducts = driver.findElements(
-                org.openqa.selenium.By.xpath("//div[@class='thumbnails grid row list-inline']//a[@class='prdocutname']"));
+                org.openqa.selenium.By.xpath("//div[@class='thumbnails grid row list-inline']//div[@class='oneprice']"));
 
         List<Double> productPrices = new ArrayList<>();
         for(WebElement elements: currentProducts) {
@@ -102,7 +102,7 @@ public class TshirtsPage extends BasePage {
         selectSortOption("p.price-DESC");
 
         List<WebElement> currentProducts = driver.findElements(
-                org.openqa.selenium.By.xpath("//div[@class='thumbnails grid row list-inline']//a[@class='prdocutname']"));
+                org.openqa.selenium.By.xpath("//div[@class='thumbnails grid row list-inline']//div[@class='oneprice']"));
 
         List<Double> productPrices = new ArrayList<>();
         for(WebElement elements: currentProducts) {
