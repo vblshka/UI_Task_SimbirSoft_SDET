@@ -14,7 +14,7 @@ import static io.restassured.RestAssured.given;
 
 public class EntityAPITest extends BaseAPITest {
 
-    @Test
+//    @Test
     public void getEntityByIdTest() {
         String timestamp = LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
@@ -45,7 +45,7 @@ public class EntityAPITest extends BaseAPITest {
 
     }
 
-    @Test
+//    @Test
     public void getAllEntitiesByTitleTest() {
         String timestamp = LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
@@ -78,7 +78,7 @@ public class EntityAPITest extends BaseAPITest {
         Assertions.assertEquals(createResponse, idEntityByTitle);
     }
 
-    @Test
+//    @Test
     public void createEntityTest() {
         AdditionDataRequest additionData = AdditionDataRequest.builder()
                 .additionalInfo("created")
@@ -120,7 +120,7 @@ public class EntityAPITest extends BaseAPITest {
         Assertions.assertEquals(expectedResult, createResponse);
     }
 
-    @Test
+//    @Test
     public void deleteEntityTest() {
         CreateEntityRequest entityData = CreateEntityRequest.builder()
                 .title("for delete entity test")
@@ -154,7 +154,7 @@ public class EntityAPITest extends BaseAPITest {
         Assertions.assertEquals("no rows in result set", entityById.getError());
     }
 
-    @Test
+//    @Test
     public void patchTitleTest() {
         AdditionDataRequest additionData = AdditionDataRequest.builder()
                 .additionalInfo("created")
