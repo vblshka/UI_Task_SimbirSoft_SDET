@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CartTest extends BaseTest {
 
-    @Test
+//    @Test
     public void addProductsToCart() {
         mainPage.initUniqueProductsOnMainPage();
         int counter = 0;

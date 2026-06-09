@@ -18,6 +18,7 @@ public class BaseTest {
 
     @BeforeEach
     public void setUp() {
+        WebDriverManager.chromedriver().clearDriverCache().setup();
         WebDriverManager.chromedriver().setup();
 
         ChromeOptions options = new ChromeOptions();
@@ -26,7 +27,7 @@ public class BaseTest {
 
         String headless = System.getenv("HEADLESS");
         if ("true".equalsIgnoreCase(headless)) {
-            options.addArguments("--headless");
+            options.addArguments("--headless=new");
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
         }

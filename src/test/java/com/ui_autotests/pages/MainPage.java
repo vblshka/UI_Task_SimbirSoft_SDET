@@ -34,6 +34,9 @@ public class MainPage extends BasePage {
     }
 
     public void initUniqueProductsOnMainPage() {
+
+
+
         for (WebElement product : products) {
             String title = product.getAttribute("title");
 
