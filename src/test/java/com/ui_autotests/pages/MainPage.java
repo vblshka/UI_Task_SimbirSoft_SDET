@@ -52,11 +52,14 @@ public class MainPage extends BasePage {
         // Скроллим к элементу
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", apparelAccessoriesButton);
 
-        // Ждём, пока элемент станет кликабельным
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.elementToBeClickable(apparelAccessoriesButton));
+        // Небольшая пауза после скролла
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
 
-        // Кликаем через JavaScript (обходит проблему interactable)
+        // Кликаем через JavaScript (не требует видимости)
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", apparelAccessoriesButton);
 
         return new ApparelAccessoriesPage();
