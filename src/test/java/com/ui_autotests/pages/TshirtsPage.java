@@ -1,11 +1,16 @@
 package com.ui_autotests.pages;
 
 import com.ui_autotests.core.BasePage;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,12 +41,30 @@ public class TshirtsPage extends BasePage {
         PageFactory.initElements(driver, this);
     }
 
+    private void selectSortOption(String value) {
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", dropDown);
+
+        wait.until(ExpectedConditions.elementToBeClickable(dropDown));
+
+        System.out.println("Trying to select option: " + value);
+        System.out.println("DropDown displayed: " + dropDown.isDisplayed());
+        System.out.println("DropDown enabled: " + dropDown.isEnabled());
+
+        Select select = new Select(dropDown);
+        select.selectByValue(value);
+    }
+
     public List<String> chooseSortByNameAsc() {
-        dropDown.click();
-        sortByNameAsc.click();
+        selectSortOption("pd.name-ASC");
+
+        List<WebElement> currentProducts = driver.findElements(
+                org.openqa.selenium.By.xpath("//div[@class='thumbnails grid row list-inline']//a[@class='prdocutname']"));
 
         List<String> productNames= new ArrayList<>();
-        for(WebElement elements: products) {
+        for(WebElement elements: currentProducts) {
             String title = elements.getAttribute("title");
             productNames.add(title);
         }
@@ -50,11 +73,13 @@ public class TshirtsPage extends BasePage {
     }
 
     public List<String> chooseSortByNameDesc() {
-        dropDown.click();
-        sortByNameDesc.click();
+        selectSortOption("pd.name-DESC");
+
+        List<WebElement> currentProducts = driver.findElements(
+                org.openqa.selenium.By.xpath("//div[@class='thumbnails grid row list-inline']//a[@class='prdocutname']"));
 
         List<String> productNames= new ArrayList<>();
-        for(WebElement elements: products) {
+        for(WebElement elements: currentProducts) {
             String title = elements.getAttribute("title");
             productNames.add(title);
         }
@@ -63,11 +88,13 @@ public class TshirtsPage extends BasePage {
     }
 
     public List<Double> chooseSortByPriceAsc() {
-        dropDown.click();
-        sortByPriceAsc.click();
+        selectSortOption("p.price-ASC");
+
+        List<WebElement> currentProducts = driver.findElements(
+                org.openqa.selenium.By.xpath("//div[@class='thumbnails grid row list-inline']//div[@class='oneprice']"));
 
         List<Double> productPrices = new ArrayList<>();
-        for(WebElement elements: prices) {
+        for(WebElement elements: currentProducts) {
             String prices = elements.getText();
             String valOfPrices = prices.replace("$", "").trim();
             productPrices.add(Double.parseDouble(valOfPrices));
@@ -77,11 +104,13 @@ public class TshirtsPage extends BasePage {
     }
 
     public List<Double> chooseSortByPriceDesc() {
-        dropDown.click();
-        sortByPriceDesc.click();
+        selectSortOption("p.price-DESC");
+
+        List<WebElement> currentProducts = driver.findElements(
+                org.openqa.selenium.By.xpath("//div[@class='thumbnails grid row list-inline']//div[@class='oneprice']"));
 
         List<Double> productPrices = new ArrayList<>();
-        for(WebElement elements: prices) {
+        for(WebElement elements: currentProducts) {
             String prices = elements.getText();
             String valOfPrices = prices.replace("$", "").trim();
             productPrices.add(Double.parseDouble(valOfPrices));

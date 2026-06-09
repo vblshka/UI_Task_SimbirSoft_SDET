@@ -4,6 +4,7 @@ import com.ui_autotests.core.BasePage;
 import com.ui_autotests.utils.WaitUtils;
 import com.ui_autotests.utils.RandomUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -34,6 +35,9 @@ public class MainPage extends BasePage {
     }
 
     public void initUniqueProductsOnMainPage() {
+
+
+
         for (WebElement product : products) {
             String title = product.getAttribute("title");
 
@@ -45,7 +49,19 @@ public class MainPage extends BasePage {
     }
 
     public ApparelAccessoriesPage openApparelAccessoriesPage() {
-        apparelAccessoriesButton.click();
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", apparelAccessoriesButton);
+
+        // Небольшая пауза после скролла
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        // Кликаем через JavaScript (не требует видимости)
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", apparelAccessoriesButton);
+
         return new ApparelAccessoriesPage();
     }
 

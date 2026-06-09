@@ -2,7 +2,7 @@ name: UI & API tests
 
 on:
   push:
-    branches: [main, createAPItests]
+    branches: [main]
   pull_request:
     branches: [main]
 
@@ -24,30 +24,23 @@ jobs:
       - name: Install Chrome
         run: |
           sudo apt-get update
+          sudo apt-get install -y wget gnupg
+          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+          sudo apt-get update
           sudo apt-get install -y google-chrome-stable
           google-chrome --version
+
+      - name: Debug Chrome
+        run: |
+          google-chrome --version
+          which google-chrome
 
       - name: Make gradlew executable
         run: chmod +x gradlew
 
-      - name: Cache Gradle Dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-
-      - name: Build and run tests
-        run: |
-          ./gradlew clean test
+      - name: Run tests
+        run: ./gradlew clean test --info
         env:
           HEADLESS: "true"
           CI: "true"
-
-      - name: Upload allure report
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-results
-          path: build/allure-results/
-          retention-days: 7
