@@ -9,7 +9,7 @@ import java.util.List;
 
 public class SearchAndCartTest extends BaseTest {
 
-//    @Test
+    @Test
     public void searchByKeywordTest() {
         String keyword = "shirt";
 
@@ -17,7 +17,7 @@ public class SearchAndCartTest extends BaseTest {
                 .getValueOfSearching());
     }
 
-//    @Test
+    @Test
     public void addProductToCart () {
         String keyword = "shirt";
         int productNumber = 1;
