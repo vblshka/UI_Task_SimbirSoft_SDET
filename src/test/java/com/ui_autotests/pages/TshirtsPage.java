@@ -55,8 +55,11 @@ public class TshirtsPage extends BasePage {
     public List<String> chooseSortByNameAsc() {
         selectSortOption("pd.name-ASC");
 
+        List<WebElement> currentProducts = driver.findElements(
+                org.openqa.selenium.By.xpath("//div[@class='thumbnails grid row list-inline']//a[@class='prdocutname']"));
+
         List<String> productNames= new ArrayList<>();
-        for(WebElement elements: products) {
+        for(WebElement elements: currentProducts) {
             String title = elements.getAttribute("title");
             productNames.add(title);
         }
@@ -67,8 +70,11 @@ public class TshirtsPage extends BasePage {
     public List<String> chooseSortByNameDesc() {
         selectSortOption("pd.name-DESC");
 
+        List<WebElement> currentProducts = driver.findElements(
+                org.openqa.selenium.By.xpath("//div[@class='thumbnails grid row list-inline']//a[@class='prdocutname']"));
+
         List<String> productNames= new ArrayList<>();
-        for(WebElement elements: products) {
+        for(WebElement elements: currentProducts) {
             String title = elements.getAttribute("title");
             productNames.add(title);
         }
@@ -79,8 +85,11 @@ public class TshirtsPage extends BasePage {
     public List<Double> chooseSortByPriceAsc() {
         selectSortOption("p.price-ASC");
 
+        List<WebElement> currentProducts = driver.findElements(
+                org.openqa.selenium.By.xpath("//div[@class='thumbnails grid row list-inline']//a[@class='prdocutname']"));
+
         List<Double> productPrices = new ArrayList<>();
-        for(WebElement elements: prices) {
+        for(WebElement elements: currentProducts) {
             String prices = elements.getText();
             String valOfPrices = prices.replace("$", "").trim();
             productPrices.add(Double.parseDouble(valOfPrices));
@@ -92,8 +101,11 @@ public class TshirtsPage extends BasePage {
     public List<Double> chooseSortByPriceDesc() {
         selectSortOption("p.price-DESC");
 
+        List<WebElement> currentProducts = driver.findElements(
+                org.openqa.selenium.By.xpath("//div[@class='thumbnails grid row list-inline']//a[@class='prdocutname']"));
+
         List<Double> productPrices = new ArrayList<>();
-        for(WebElement elements: prices) {
+        for(WebElement elements: currentProducts) {
             String prices = elements.getText();
             String valOfPrices = prices.replace("$", "").trim();
             productPrices.add(Double.parseDouble(valOfPrices));
