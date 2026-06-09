@@ -1,11 +1,16 @@
 package com.ui_autotests.pages;
 
 import com.ui_autotests.core.BasePage;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,9 +41,16 @@ public class TshirtsPage extends BasePage {
         PageFactory.initElements(driver, this);
     }
 
+    private void selectSortOption(String value) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(dropDown));
+
+        Select select = new Select(dropDown);
+        select.selectByValue(value);
+    }
+
     public List<String> chooseSortByNameAsc() {
-        dropDown.click();
-        sortByNameAsc.click();
+        selectSortOption("pd.name-ASC");
 
         List<String> productNames= new ArrayList<>();
         for(WebElement elements: products) {
@@ -50,8 +62,7 @@ public class TshirtsPage extends BasePage {
     }
 
     public List<String> chooseSortByNameDesc() {
-        dropDown.click();
-        sortByNameDesc.click();
+        selectSortOption("pd.name-DESC");
 
         List<String> productNames= new ArrayList<>();
         for(WebElement elements: products) {
@@ -63,8 +74,7 @@ public class TshirtsPage extends BasePage {
     }
 
     public List<Double> chooseSortByPriceAsc() {
-        dropDown.click();
-        sortByPriceAsc.click();
+        selectSortOption("p.price-ASC");
 
         List<Double> productPrices = new ArrayList<>();
         for(WebElement elements: prices) {
@@ -77,8 +87,7 @@ public class TshirtsPage extends BasePage {
     }
 
     public List<Double> chooseSortByPriceDesc() {
-        dropDown.click();
-        sortByPriceDesc.click();
+        selectSortOption("p.price-DESC");
 
         List<Double> productPrices = new ArrayList<>();
         for(WebElement elements: prices) {
