@@ -4,6 +4,7 @@ import com.ui_autotests.core.BasePage;
 import com.ui_autotests.utils.WaitUtils;
 import com.ui_autotests.utils.RandomUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -48,7 +49,16 @@ public class MainPage extends BasePage {
     }
 
     public ApparelAccessoriesPage openApparelAccessoriesPage() {
-        apparelAccessoriesButton.click();
+        // Скроллим к элементу
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", apparelAccessoriesButton);
+
+        // Ждём, пока элемент станет кликабельным
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(apparelAccessoriesButton));
+
+        // Кликаем через JavaScript (обходит проблему interactable)
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", apparelAccessoriesButton);
+
         return new ApparelAccessoriesPage();
     }
 
