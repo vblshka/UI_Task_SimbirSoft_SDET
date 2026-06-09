@@ -49,7 +49,7 @@ public class MainPage extends BasePage {
     }
 
     public ApparelAccessoriesPage openApparelAccessoriesPage() {
-        // Скроллим к элементу
+
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", apparelAccessoriesButton);
 
         // Небольшая пауза после скролла
