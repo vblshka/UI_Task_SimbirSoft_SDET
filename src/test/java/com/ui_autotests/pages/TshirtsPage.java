@@ -43,6 +43,9 @@ public class TshirtsPage extends BasePage {
 
     private void selectSortOption(String value) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", dropDown);
+
         wait.until(ExpectedConditions.elementToBeClickable(dropDown));
 
         Select select = new Select(dropDown);
