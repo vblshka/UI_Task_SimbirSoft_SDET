@@ -18,6 +18,9 @@ public class BaseTest {
 
     @BeforeEach
     public void setUp() {
+        System.out.println("Java version: " + System.getProperty("java.version"));
+        System.out.println("Headless mode: " + System.getenv("HEADLESS"));
+
         WebDriverManager.chromedriver().clearDriverCache().setup();
         WebDriverManager.chromedriver().setup();
 

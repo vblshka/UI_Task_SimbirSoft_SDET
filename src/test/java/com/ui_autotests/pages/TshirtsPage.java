@@ -42,11 +42,16 @@ public class TshirtsPage extends BasePage {
     }
 
     private void selectSortOption(String value) {
+
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", dropDown);
 
         wait.until(ExpectedConditions.elementToBeClickable(dropDown));
+
+        System.out.println("Trying to select option: " + value);
+        System.out.println("DropDown displayed: " + dropDown.isDisplayed());
+        System.out.println("DropDown enabled: " + dropDown.isEnabled());
 
         Select select = new Select(dropDown);
         select.selectByValue(value);
