@@ -5,7 +5,10 @@ WORKDIR /app
 COPY gradle gradle/
 COPY build.gradle settings.gradle gradlew gradlew.bat ./
 
-RUN chmod +x gradlew && ./gradlew dependencies --no-daemon
+# Исправляем права и формат файла gradlew
+RUN chmod +x gradlew && \
+    sed -i 's/\r$//' gradlew && \
+    ./gradlew dependencies --no-daemon
 
 COPY src src/
 
