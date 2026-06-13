@@ -12,4 +12,4 @@ RUN chmod +x gradlew && \
 
 COPY src src/
 
-CMD ["./gradlew", "test", "--no-daemon"]
+CMD ["gradle", "test", "--no-daemon"]
