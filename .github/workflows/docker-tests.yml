@@ -17,6 +17,9 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Pull Selenoid Chrome image
+        run: docker pull selenoid/chrome:118.0
+
       - name: Run tests in Docker container
         run: |
           cd docker
