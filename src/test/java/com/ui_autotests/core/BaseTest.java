@@ -9,8 +9,13 @@ import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BaseTest {
     protected WebDriver driver;
@@ -18,24 +23,42 @@ public class BaseTest {
 
     @BeforeEach
     public void setUp() {
-        System.out.println("Java version: " + System.getProperty("java.version"));
-        System.out.println("Headless mode: " + System.getenv("HEADLESS"));
+        String selenoidUrl = System.getenv("SELENOID_URL");
+        boolean useSelenoid = selenoidUrl != null && !selenoidUrl.isEmpty();
 
-        WebDriverManager.chromedriver().clearDriverCache().setup();
-        WebDriverManager.chromedriver().setup();
+        System.out.println("Use Selenoid: " + useSelenoid);
+        if (useSelenoid) {
+            System.out.println("Selenoid URL: " + selenoidUrl);
+        }
 
         ChromeOptions options = new ChromeOptions();
         options.setPageLoadStrategy(PageLoadStrategy.EAGER);
         options.addArguments("--remote-allow-origins=*");
 
-        String headless = System.getenv("HEADLESS");
-        if ("true".equalsIgnoreCase(headless)) {
-            options.addArguments("--headless=new");
-            options.addArguments("--no-sandbox");
-            options.addArguments("--disable-dev-shm-usage");
+        if (useSelenoid) {
+            // Настройки для Selenoid
+            Map<String, Object> selenoidOptions = new HashMap<>();
+            selenoidOptions.put("enableVNC", true);
+            selenoidOptions.put("enableVideo", false);
+            options.setCapability("selenoid:options", selenoidOptions);
+
+            try {
+                driver = new RemoteWebDriver(new URL(selenoidUrl), options);
+            } catch (MalformedURLException e) {
+                throw new RuntimeException("Invalid Selenoid URL: " + selenoidUrl, e);
+            }
+        } else {
+            // Локальный запуск
+            WebDriverManager.chromedriver().setup();
+            String headless = System.getenv("HEADLESS");
+            if ("true".equalsIgnoreCase(headless)) {
+                options.addArguments("--headless=new");
+                options.addArguments("--no-sandbox");
+                options.addArguments("--disable-dev-shm-usage");
+            }
+            driver = new ChromeDriver(options);
         }
 
-        driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));

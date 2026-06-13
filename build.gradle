@@ -22,7 +22,11 @@ dependencies {
     testCompileOnly("org.projectlombok:lombok:1.18.42")
     testImplementation("org.aeonbits.owner:owner:1.0.12")
     testImplementation("com.fasterxml.jackson.core:jackson-databind:2.21.2")
+    testImplementation('io.qameta.allure:allure-junit5:2.25.0')
+}
 
+allure {
+    version.set("2.25.0")
 }
 
 test {

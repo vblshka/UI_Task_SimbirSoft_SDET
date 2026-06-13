@@ -1,0 +1,42 @@
+networks:
+  selenoid-net:
+    name: selenoid-net
+    driver: bridge
+
+services:
+  selenoid:
+    build:
+      context: ./selenoid
+      dockerfile: Dockerfile
+    container_name: selenoid
+    networks:
+      - selenoid-net
+    ports:
+      - "4444:4444"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./selenoid/browsers.json:/etc/selenoid/browsers.json:ro
+    environment:
+      - DOCKER_API_VERSION=1.45
+    command: [ "-limit", "5", "-conf", "/etc/selenoid/browsers.json", "-container-network", "selenoid-net" ]
+    restart: unless-stopped
+
+  test-runner:
+    build:
+      context: ..
+      dockerfile: docker/runner/Dockerfile
+    container_name: test-runner
+    networks:
+      - selenoid-net
+    volumes:
+      - ..:/app
+      - gradle-cache:/root/.gradle
+    environment:
+      - SELENOID_URL=http://selenoid:4444/wd/hub
+      - HEADLESS=false
+      - CI=true
+    depends_on:
+      - selenoid
+
+volumes:
+  gradle-cache:
