@@ -2,7 +2,7 @@ name: Docker Tests
 
 on:
   push:
-    branches: [main]
+    branches: [main, createAPItests]
   pull_request:
     branches: [main]
 
