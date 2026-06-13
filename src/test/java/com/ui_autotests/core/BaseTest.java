@@ -40,7 +40,10 @@ public class BaseTest {
             Map<String, Object> selenoidOptions = new HashMap<>();
             selenoidOptions.put("enableVNC", true);
             selenoidOptions.put("enableVideo", false);
+            selenoidOptions.put("screenResolution", "1920x1080x24");
             options.setCapability("selenoid:options", selenoidOptions);
+            options.setCapability("browserName", "chrome");
+            options.setCapability("browserVersion", "118.0");
 
             try {
                 driver = new RemoteWebDriver(new URL(selenoidUrl), options);
